@@ -10,13 +10,13 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Stack;
 
-public class FibonacciHeap<P extends Comparable<P>, E> {
+public class FibonacciHeap<P extends Comparable<P>, E> implements Heap<P, E> {
 
 	private Node min;
 
-	Set<Node> roots;
+	private Set<Node> roots;
 
-	Map<E, Node> all;
+	private Map<E, Node> all;
 
 	public FibonacciHeap() {
 		min = null;
@@ -152,6 +152,42 @@ public class FibonacciHeap<P extends Comparable<P>, E> {
 		}
 	}
 
+	public boolean delete(E element) {
+		
+		if (all.containsKey(element)) {
+			Node toDelete = all.get(element);
+			roots.addAll(toDelete.children);
+			
+			toDelete.children.forEach(n -> n.parent = null);
+			
+			if (roots.contains(element)) {
+				roots.remove(element);
+			}
+			
+			all.remove(element);
+			
+			if (toDelete.parent != null) {
+				Stack<Node> stack = new Stack<>();
+				stack.push(toDelete.parent);
+				while (!stack.isEmpty()) {
+					Node curr = stack.pop();
+					
+					if (curr.marked) {
+						stack.push(curr.parent);
+						curr.parent = null;
+						roots.add(curr);
+					} else {
+						curr.mark();
+					}
+				}
+			}
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static void main(String[] args) {
 		FibonacciHeap<Integer, Integer> fq = new FibonacciHeap<>();
 		

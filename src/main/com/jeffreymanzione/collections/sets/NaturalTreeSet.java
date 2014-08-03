@@ -2,11 +2,8 @@ package com.jeffreymanzione.collections.sets;
 
 import java.util.Iterator;
 
-import com.jeffreymanzione.collections.Collection;
 import com.jeffreymanzione.collections.queues.Queue;
 import com.jeffreymanzione.collections.queues.StrictQueue;
-import com.jeffreymanzione.collections.stacks.Stack;
-import com.jeffreymanzione.collections.stacks.StrictStack;
 
 public class NaturalTreeSet<E extends Comparable<E>> extends AbstractSet<E>
 		implements SortedSet<E> {

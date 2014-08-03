@@ -1,8 +1,7 @@
 package com.jeffreymanzione.collections.sets;
 
-import java.util.Collection;
+import com.jeffreymanzione.collections.Collection;
 
-public interface Set<E> extends Collection<E>{
-	public boolean insert(E element);
-	
+public interface Set<E> extends Collection<E> {
+
 }

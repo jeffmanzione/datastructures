@@ -43,23 +43,23 @@ public class HeapTests {
 
 	@Test
 	public void testBinary() {
-			BinaryHeap<Integer, Integer> fh = new BinaryHeap<>();
-			
-			List<Integer> sorted = new ArrayList<>();
-			
-			IntStream.range(0,100).forEach(i -> sorted.add(i));
-			
-			List<Integer> unsorted = new ArrayList<>(sorted);
-			Collections.shuffle(unsorted);
+		BinaryHeap<Integer, Integer> fh = new BinaryHeap<>();
 
-			unsorted.forEach(e -> fh.insert(e, e));
-			
-			Integer prev = null;
-			while(fh.size() > 0) {
-				Integer cur = fh.delete();
-				System.out.println(cur);
-				assertTrue(prev == null || cur >= prev);
-			}
-		
+		List<Integer> sorted = new ArrayList<>();
+
+		IntStream.range(0, 100).forEach(i -> sorted.add(i));
+
+		List<Integer> unsorted = new ArrayList<>(sorted);
+		Collections.shuffle(unsorted);
+
+		unsorted.forEach(e -> fh.insert(e, e));
+
+		Integer prev = null;
+		while (fh.size() > 0) {
+			Integer cur = fh.delete();
+			System.out.println(cur);
+			assertTrue(prev == null || cur >= prev);
+		}
+
 	}
 }

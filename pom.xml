@@ -5,19 +5,46 @@
 	<artifactId>DataStructures</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Data Structures by Jeffrey Manzione</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 	<build>
-		<sourceDirectory>src/main</sourceDirectory>
-		<testSourceDirectory>src/tests</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
+		<resources>
+			<resource>
+				<directory>src/java/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/java/resources</directory>
+			</testResource>
+		</testResources>
+		<sourceDirectory>src/java/main</sourceDirectory>
+		<testSourceDirectory>src/java/tests</testSourceDirectory>
+		<scriptSourceDirectory>src/java/main/scripts</scriptSourceDirectory>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+						<includes>
+							<include>**/*test*</include>
+							<include>**/*Test*</include>
+						</includes>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.16</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 	</build>
 	<dependencies>
 		<dependency>

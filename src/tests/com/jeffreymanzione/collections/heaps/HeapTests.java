@@ -7,10 +7,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.junit.Test;
+
 import com.jeffreymanzione.maps.heaps.BinaryHeap;
 import com.jeffreymanzione.maps.heaps.FibonacciHeap;
-
-import org.junit.Test;
 
 public class HeapTests {
 

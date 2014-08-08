@@ -1,13 +1,13 @@
 package com.jeffreymanzione.collections.sets;
 
-import java.util.Comparator;
 import java.util.Iterator;
 
+import com.jeffreymanzione.collections.Collection;
+import com.jeffreymanzione.collections.queues.Queue;
+import com.jeffreymanzione.collections.queues.StrictQueue;
 
-public class TreeSet<E> extends AbstractSortedSet<E> {
-
-	private Comparator<E> comparator;
-
+public class NaturalTreeSet<E extends Comparable<E>> extends
+		AbstractSortedSet<E> {
 
 	private class TreeNode extends Node {
 
@@ -16,7 +16,7 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 		}
 
 		public boolean insert(E element) {
-			if (comparator.compare(element, this.getElement()) > 0) {
+			if (element.compareTo(this.getElement()) > 0) {
 				if (this.hasRight()) {
 					return this.getRight().insert(element);
 				} else {
@@ -24,7 +24,7 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 					size++;
 					return true;
 				}
-			} else if (comparator.compare(element, this.getElement()) < 0) {
+			} else if (element.compareTo(this.getElement()) < 0) {
 				if (this.hasLeft()) {
 					return this.getLeft().insert(element);
 				} else {
@@ -40,10 +40,10 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 
 		public boolean delete(E element, Node parent, Direction dir) {
 
-			System.out.println("Element=" + element + "\tParent="
-					+ (parent == null ? null : parent.getElement()) + "\tThis="
-					+ this.getElement());
-			if (comparator.compare(this.getElement(), element) == 0) {
+//			System.out.println("Element=" + element + "\tParent="
+//					+ (parent == null ? null : parent.getElement()) + "\tThis="
+//					+ this.getElement());
+			if (this.getElement().compareTo(element) == 0) {
 
 				if (!this.hasLeft()) {
 					if (!this.hasRight()) {
@@ -68,8 +68,8 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 				} else {
 					Bottom<TreeNode> maxLeft = this.getLeft().getMaxChild();
 
-					System.out.println("parent=" + maxLeft.parent + "\tchild="
-							+ maxLeft.child + "\t\tdir=" + maxLeft.dir);
+//					System.out.println("parent=" + maxLeft.parent + "\tchild="
+//							+ maxLeft.child + "\t\tdir=" + maxLeft.dir);
 					this.setElement(maxLeft.child.getElement());
 					maxLeft.child.delete(maxLeft.child.getElement(),
 							maxLeft.parent == null ? this : maxLeft.parent,
@@ -78,7 +78,7 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 				}
 
 				return true;
-			} else if (comparator.compare(this.getElement(), element) > 0) {
+			} else if (this.getElement().compareTo(element) > 0) {
 				if (this.hasLeft()) {
 					return this.getLeft().delete(element, this, Direction.Left);
 				} else {
@@ -119,44 +119,56 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 			return (TreeNode) super.getRight();
 		}
 
+		@Override
 		public boolean contains(E element) {
-			int comp = comparator.compare(this.getElement(), element);
-			if (comp == 0) {
-				return true;
-			} else if (comp < 0) {
-				if (this.hasRight()) {
-					return this.getRight().contains(element);
-				} else {
-					return false;
-				}
-			} else {
-				if (this.hasLeft()) {
-					return this.getLeft().contains(element);
-				} else {
-					return false;
-				}
-			}
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 	}
 
-	public TreeSet(Comparator<E> comparator) {
-		this.comparator = comparator;
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean insert(E element) {
+		if (head == null) {
+			head = new TreeNode(element);
+			size++;
+			return true;
+		} else {
+			return ((TreeNode) head).insert(element);
+		}
 	}
-
-	public TreeSet() {
-	}
-
-	public void setComparator(Comparator<E> comparator) {
-		this.comparator = comparator;
-	}
-
-	
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Iterator<E>() {
+
+			Queue<E> tempQueue = new StrictQueue<>();
+
+			{
+				buildInorder(head);
+			}
+
+			private void buildInorder(Node cur) {
+				if (cur != null) {
+					buildInorder(cur.getLeft());
+					tempQueue.enqueue(cur.getElement());
+					buildInorder(cur.getRight());
+				}
+			}
+
+			@Override
+			public boolean hasNext() {
+				return !tempQueue.isEmpty();
+			}
+
+			@Override
+			public E next() {
+				return tempQueue.dequeue();
+			}
+
+		};
+
 	}
 
 	@Override
@@ -178,37 +190,14 @@ public class TreeSet<E> extends AbstractSortedSet<E> {
 
 	@Override
 	public Iterator<E> backward() {
-		return new Iterator<E>() {
-
-			@Override
-			public boolean hasNext() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			public E next() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public void remove() {
-				// TODO Auto-generated method stub
-			}
-
-		};
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public boolean insert(E element) {
-		if (head == null) {
-			head = new TreeNode(element);
-			size++;
-			return true;
-		} else {
-			return ((TreeNode) head).insert(element);
-		}
+	public boolean containsAll(Collection<E> collection) {
+		// TODO Auto-generated method stub
+		return false;
 	}
+
 }

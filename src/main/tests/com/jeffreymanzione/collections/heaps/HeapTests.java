@@ -57,7 +57,7 @@ public class HeapTests {
 		Integer prev = null;
 		while (fh.size() > 0) {
 			Integer cur = fh.delete();
-			System.out.println(cur);
+			//System.out.println(cur);
 			assertTrue(prev == null || cur >= prev);
 		}
 
